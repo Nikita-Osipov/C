@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
+int len(char *s)
+{
+    int i = 0;
+    while(s[i]!='\0')
+        i++;
+    return i;
+}
 int st(int a, int b)
 {
     int i;
@@ -12,7 +19,7 @@ int st(int a, int b)
 int fatoi(char *s)
 {
     int n = 0,i,k;
-    k = strlen(s);
+    k = len(s);
     for(i = 0; i < k; i++){
         n = n + st(s[i]-'0',k-i);
     }

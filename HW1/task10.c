@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 
+int len(char *s)
+{
+    int i = 0;
+    while(s[i]!='\0')
+        i++;
+    return i;
+}
+
 int count_digits(const char *s)
 {
     int i, count = 0;
-    for(i = 0; i < strlen(s); i++){
+    for(i = 0; i < len(s); i++){
         if('0' <= s[i] && s[i] <= '9'){
             count++;
         }
