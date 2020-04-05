@@ -40,13 +40,16 @@ void menu()
         "6)Search of the element in the singly linked list.",
         "7)Exit."};
     int i;
+    printf("\n%s","To choose the element of the list: (1,..,7).\n");
     for(i=0;i<7;i++)
         printf("%s\n",s[i]);
 }
 
+
 int main()
 {
-    int a, N=1, mode = 0;
+    int a, N=1, mode = 0, n;
+    char t;
     char name[40][50];
     char opens[40][50];
     char closes[40][50];
@@ -54,30 +57,33 @@ int main()
     do{
         do{
             menu();
-            printf("\n%s","To choose the element of the list: (1,..,7).\n");
-            scanf("%d",&a);
-        }while(a<1 || a>7);
-        if(a == 1){
-            mode = 1;
-            printf("\n%s","Name:");
-            scanf("\n%s",&name[0]);
-            printf("\n%s","Opens:");
-            scanf("\n%s",&opens[0]);
-            printf("\n%s","Closes:");
-            scanf("\n%s",&closes[0]);
-            arr[0].name = name[0];
-            arr[0].opens = opens[0];
-            arr[0].closes = closes[0];
-            arr[0].next = NULL;
+            scanf("%s",&t);
+        }while(t<'1' || t>'7');
+        if(t == '1'){
+            if(mode == 0){
+                mode = 1;
+                printf("\n%s","Name:");
+                scanf("%s",&name[0]);
+                printf("\n%s","Opens:");
+                scanf("%s",&opens[0]);
+                printf("\n%s","Closes:");
+                scanf("%s",&closes[0]);
+                arr[0].name = name[0];
+                arr[0].opens = opens[0];
+                arr[0].closes = closes[0];
+                arr[0].next = NULL;
             }
-        if(a == 2){
+            else
+                printf("\n%s","The first element was created.\n");
+            }
+        if(t == '2'){
             if(mode != 0){
                 printf("\n%s","Name:");
-                scanf("\n%s",&name[N]);
+                scanf("%s",&name[N]);
                 printf("\n%s","Opens:");
-                scanf("\n%s",&opens[N]);
+                scanf("%s",&opens[N]);
                 printf("\n%s","Closes:");
-                scanf("\n%s",&closes[N]);
+                scanf("%s",&closes[N]);
                 arr = (island*)realloc(arr, sizeof(island)*(N+1));
                 arr[N].name = name[N];
                 arr[N].opens = opens[N];
@@ -89,7 +95,7 @@ int main()
             else
                 printf("\n%s","To create the first element.\n");
         }
-        if(a == 3){
+        if(t == '3'){
             if(N>1){
                 arr[N-2].next = NULL;
                 N--;
@@ -100,12 +106,12 @@ int main()
                 mode = 0;
             }
         }
-        if(a == 4)
+        if(t == '4')
             if(mode == 0)
                 printf("\n%s\n","The list is empty.");
             else
                 display(&arr[0]);
-        if(a == 5){
+        if(t == '5'){
             if(mode != 0){
                 release(&arr[0]);
                 N = 1;
@@ -113,16 +119,16 @@ int main()
                 mode = 0;
             }
         }
-        if(a == 6){
+        if(t == '6'){
             printf("\n%s","Key word:");
             char word[50];
-            scanf("\n%s",&word);
+            scanf("%s",&word);
             for(a = 0; a < N; a++){
-                if(arr[a].name == word)
-                    printf("\n%d\n",a);
+                if (strcmp (arr[a].name, word)==0 || strcmp (arr[a].opens, word)==0 || strcmp (arr[a].closes, word)==0)
+                    printf("\n%s %d\n","Struct #:",a);
             }
         }
-    }while(a != 7);
+    }while(t != '7');
     return 0;
 
 }
