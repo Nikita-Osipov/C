@@ -48,7 +48,7 @@ void menu()
 
 int main()
 {
-    int a, N=1, mode = 0, n;
+    int a, N=1, mode = 0, n, len;
     char t;
     char name[40][50];
     char opens[40][50];
@@ -62,12 +62,27 @@ int main()
         if(t == '1'){
             if(mode == 0){
                 mode = 1;
-                printf("\n%s","Name:");
-                scanf("%s",&name[0]);
-                printf("\n%s","Opens:");
-                scanf("%s",&opens[0]);
-                printf("\n%s","Closes:");
-                scanf("%s",&closes[0]);
+                do{
+                    printf("\n%s","Name:");
+                    scanf("%s",&name[0]);
+                    len = strlen(name[0]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
+                do{
+                    printf("\n%s","Opens:");
+                    scanf("%s",&opens[0]);
+                    len = strlen(opens[0]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
+                do{
+                    printf("\n%s","Closes:");
+                    scanf("%s",&closes[0]);
+                    len = strlen(closes[0]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
                 arr[0].name = name[0];
                 arr[0].opens = opens[0];
                 arr[0].closes = closes[0];
@@ -78,12 +93,27 @@ int main()
             }
         if(t == '2'){
             if(mode != 0){
-                printf("\n%s","Name:");
-                scanf("%s",&name[N]);
-                printf("\n%s","Opens:");
-                scanf("%s",&opens[N]);
-                printf("\n%s","Closes:");
-                scanf("%s",&closes[N]);
+                do{
+                    printf("\n%s","Name:");
+                    scanf("%s",&name[N]);
+                    len = strlen(name[N]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
+                do{
+                    printf("\n%s","Opens:");
+                    scanf("%s",&opens[N]);
+                    len = strlen(opens[N]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
+                do{
+                    printf("\n%s","Closes:");
+                    scanf("%s",&closes[N]);
+                    len = strlen(closes[N]);
+                    if(len > 50)
+                        printf("\n%s","Min number of elements: 50.");
+                }while(len>50);
                 arr = (island*)realloc(arr, sizeof(island)*(N+1));
                 arr[N].name = name[N];
                 arr[N].opens = opens[N];
@@ -120,9 +150,14 @@ int main()
             }
         }
         if(t == '6'){
-            printf("\n%s","Key word:");
             char word[50];
-            scanf("%s",&word);
+            do{
+                printf("\n%s","Key word:");
+                scanf("%s",&word);
+                len = strlen(word);
+                if(len > 50)
+                    printf("\n%s","Min number of elements: 50.");
+            }while(len>50);
             for(a = 0; a < N; a++){
                 if (strcmp (arr[a].name, word)==0 || strcmp (arr[a].opens, word)==0 || strcmp (arr[a].closes, word)==0)
                     printf("\n%s %d\n","Struct #:",a);
