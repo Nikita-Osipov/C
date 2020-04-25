@@ -12,9 +12,10 @@ static PyObject *py_subs(PyObject* self, PyObject* args){
         a[i] = i+1;
     }
     h = pow(2,x);
-    int res[h][x];
     int r[x];
-    int numOf1[h];
+    int plusq;
+    PyObject* list = PyList_New(0);
+    PyObject* list2 = PyList_New(0);
     for(i=0;i<h;i++){
         k=0;
         nxt = i;
@@ -29,22 +30,15 @@ static PyObject *py_subs(PyObject* self, PyObject* args){
         q=0;
         for(j=0;j<x;j++){
             if(r[j]==1){
-                res[i][q]=a[j];
+                PyList_Append(list,Py_BuildValue("i",a[j]));
                 q++;
             }
         }
-        numOf1[i]=q;
+        plusq = q;
         for(q;q<x;q++){
-            res[i][q]=0;
+            PyList_Append(list,Py_BuildValue("i",0));
         }
-    }
-    PyObject* list = PyList_New(0);
-    PyObject* list2 = PyList_New(0);
-    for(i=0;i<h;i++){
-        for(j=0;j<x;j++){
-            PyList_Append(list,Py_BuildValue("i",res[i][j]));
-        }
-        PyList_Append(list2,PyList_GetSlice(list,i*x,i*x+numOf1[i]));
+        PyList_Append(list2,PyList_GetSlice(list,i*x,i*x+plusq));
     }
     return list2;
 }
@@ -72,7 +66,6 @@ static PyObject *py_subsN(PyObject* self, PyObject* args){
             h3 *= s;
         h = (int)(h1/(h2*h3));
     }
-    int res[h][y];
     int r[x];
     int p=0,sp;
     i = 0;
@@ -96,19 +89,14 @@ static PyObject *py_subsN(PyObject* self, PyObject* args){
                 q=0;
                 for(j=0;j<x;j++){
                     if(r[j]==1){
-                        res[i][q]=a[j];
+                        PyList_Append(list,Py_BuildValue("i",a[j]));
                         q++;
                     }
                 }
+                PyList_Append(list2,PyList_GetSlice(list,i*y,i*y+y));
                 i++;
             }
             p++;
-        }
-        for(i=0;i<h;i++){
-            for(j=0;j<y;j++){
-                PyList_Append(list,Py_BuildValue("i",res[i][j]));
-            }
-            PyList_Append(list2,PyList_GetSlice(list,i*y,i*y+y));
         }
         return list2;
     }
