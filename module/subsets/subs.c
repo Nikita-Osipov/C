@@ -14,6 +14,7 @@ static PyObject *py_subs(PyObject* self, PyObject* args){
     h = pow(2,x);
     int res[h][x];
     int r[x];
+    int numOf1[h];
     for(i=0;i<h;i++){
         k=0;
         nxt = i;
@@ -32,11 +33,20 @@ static PyObject *py_subs(PyObject* self, PyObject* args){
                 q++;
             }
         }
+        numOf1[i]=q;
         for(q;q<x;q++){
             res[i][q]=0;
         }
     }
-    return Py_BuildValue("i",res[4][0]);
+    PyObject* list = PyList_New(0);
+    PyObject* list2 = PyList_New(0);
+    for(i=0;i<h;i++){
+        for(j=0;j<x;j++){
+            PyList_Append(list,Py_BuildValue("i",res[i][j]));
+        }
+        PyList_Append(list2,PyList_GetSlice(list,i*x,i*x+numOf1[i]));
+    }
+    return list2;
 }
 
 static PyObject *py_subsN(PyObject* self, PyObject* args){
@@ -66,32 +76,47 @@ static PyObject *py_subsN(PyObject* self, PyObject* args){
     int r[x];
     int p=0,sp;
     i = 0;
-    while(p<pow(2,x)){
-        sp=0;
-        k=0;
-        nxt=p;
-        while(nxt){
-            r[k]=(int)(nxt%2);
-            if(r[k]==1)
-                sp++;
-            nxt/=2;
-            k++;
-        }
-        for(k;k<y;k++)
-            r[k]=0;
-        if(sp=y){
-            q=0;
-            for(j=0;j<x;j++){
-                if(r[j]==1){
-                    res[i][q]=a[j];
-                    q++;
-                }
+    PyObject* list = PyList_New(0);
+    PyObject* list2 = PyList_New(0);
+    if(y < x){
+        while(p<pow(2,x)){
+            sp=0;
+            k=0;
+            nxt=p;
+            while(nxt){
+                r[k]=(int)(nxt%2);
+                if(r[k]==1)
+                    sp++;
+                nxt/=2;
+                k++;
             }
-            i++;
+            for(k;k<y;k++)
+                r[k]=0;
+            if(sp=y){
+                q=0;
+                for(j=0;j<x;j++){
+                    if(r[j]==1){
+                        res[i][q]=a[j];
+                        q++;
+                    }
+                }
+                i++;
+            }
+            p++;
         }
-        p++;
+        for(i=0;i<h;i++){
+            for(j=0;j<y;j++){
+                PyList_Append(list,Py_BuildValue("i",res[i][j]));
+            }
+            PyList_Append(list2,PyList_GetSlice(list,i*y,i*y+y));
+        }
+        return list2;
     }
-    return Py_BuildValue("ii",h,i);
+    else
+        for(i=0;i<x;i++)
+            PyList_Append(list,Py_BuildValue("i",i+1));
+        PyList_Append(list2,list);
+        return list2;
 }
 
 static PyMethodDef ownmod_methods[]={
@@ -103,7 +128,7 @@ static PyMethodDef ownmod_methods[]={
 static PyModuleDef simple_module={
     PyModuleDef_HEAD_INIT,
     "my_subs",
-    "azaza",
+    "subsets",
     -1,
     ownmod_methods
 };
