@@ -3,19 +3,19 @@
 static PyObject *py_subs(PyObject* self, PyObject* args){
     int x;
     if(!PyArg_ParseTuple(args,"i",&x))
-        return NULL;
+        return Py_BuildValue("s","Error! Only 1 natural number");
     if(x<1)
-        return Py_BuildValue("s","Error!!! Only 1 natural number");
+        return Py_BuildValue("s","Error! Only 1 natural number");
     int i,j,h,q,k,nxt;
-    int a[x];
+    int a[x];/*Set of elements*/
     for(i=0;i<x;i++){
         a[i] = i+1;
     }
-    h = pow(2,x);
-    int r[x];
-    int plusq;
+    h = pow(2,x);/*Number of subsets*/
+    int r[x];/*Mask of a subsets*/
+    int plusq;/*Number of non-zero elements of a subsets*/
     PyObject* list = PyList_New(0);
-    PyObject* list2 = PyList_New(0);
+    PyObject* list2 = PyList_New(0);/*The list of subsets*/
     for(i=0;i<h;i++){
         k=0;
         nxt = i;
@@ -46,9 +46,9 @@ static PyObject *py_subs(PyObject* self, PyObject* args){
 static PyObject *py_subsN(PyObject* self, PyObject* args){
     int x,y;
     if(!PyArg_ParseTuple(args,"ii",&x,&y))
-        return NULL;
+        return Py_BuildValue("s","Error! Only 2 natural number");
     if(y>x)
-        return Py_BuildValue("s","Error!!! x<y!");
+        return Py_BuildValue("s","Error! x<y!");
     int i,j,h,q,k,nxt,s;
     int a[x];
     for(i=0;i<x;i++){
